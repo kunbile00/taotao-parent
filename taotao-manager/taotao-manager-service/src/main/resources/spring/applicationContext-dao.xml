@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+       xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+       xmlns:aop="http://www.springframework.org/schema/aop"
+       xmlns:context="http://www.springframework.org/schema/context"
+       xmlns:tx="http://www.springframework.org/schema/tx"
+
+       xsi:schemaLocation="http://www.springframework.org/schema/beans
+       
+       http://www.springframework.org/schema/beans/spring-beans.xsd
+       http://www.springframework.org/schema/context
+       http://www.springframework.org/schema/context/spring-context.xsd
+       http://www.springframework.org/schema/aop
+       http://www.springframework.org/schema/aop/spring-aop.xsd
+       http://www.springframework.org/schema/tx 
+       http://www.springframework.org/schema/tx/spring-tx.xsd
+">
+<!--    数据源 -->
+    <context:property-placeholder location="classpath:properties/*.properties"/>
+<!--    sqlSessionFactory-->
+<bean destroy-method="close" class="com.alibaba.druid.pool.DruidDataSource" id="dataSource">
+    <property value="${jdbc.url}" name="url"/>
+    <property value="${jdbc.username}" name="username"/>
+    <property value="${jdbc.password}" name="password"/>
+    <property value="${jdbc.driver}" name="driverClassName"/>
+    <property value="10" name="maxActive"/>
+    <property value="5" name="minIdle"/>
+</bean>
+<!--    让spring管理sqlsessionfactory 使用mybatis和spring整合包中-->
+    <bean id="sqlSessionFactory" class="org.mybatis.spring.SqlSessionFactoryBean">
+<!--        数据库连接池-->
+        <property name="dataSource" ref="dataSource"/>
+<!--        加载mybatis的全局配置文件-->
+        <property name="configLocation" value="classpath:mybatis/SqlMapConfig.xml"/>
+    </bean>
+    <bean class="org.mybatis.spring.mapper.MapperScannerConfigurer">
+        <property name="basePackage" value="com.taotao.mapper"/>
+    </bean>
+<!--    mapper扫描器-->
+
+</beans>
