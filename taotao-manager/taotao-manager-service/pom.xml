@@ -75,7 +75,7 @@
     <dependency>
       <groupId>com.alibaba</groupId>
       <artifactId>dubbo</artifactId>
-      <version>2.5.10</version>
+      <version>2.6.9</version>
       <!-- 排除依赖 -->
       <exclusions>
         <exclusion>
